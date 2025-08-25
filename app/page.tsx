@@ -26,7 +26,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Heading */}
-      <header className="text-center py-12 px-4">
+      <header className="text-center py-12 px-4 mt-20">
         <h1 className="text-5xl font-extrabold mb-4 tracking-wide">Profile Cards</h1>
         <p className="text-gray-400 text-lg mb-6">Browse and search all created profiles</p>
 

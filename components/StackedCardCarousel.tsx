@@ -55,7 +55,7 @@ export default function ResponsiveCardCarousel({ profiles }: Props) {
 
             {/* --- Mobile Swipeable Carousel --- */}
             <div
-                className={`cursor-pointer h-96 flex md:hidden gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar scroll-smooth touch-pan-x px-4 ${profiles.length === 1 ? "justify-center" : ""
+                className={`w-auto cursor-pointer h-88 flex md:hidden gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar scroll-smooth touch-pan-x px-4 ${profiles.length === 1 ? "justify-center" : ""
                     }`}
                 style={{ WebkitOverflowScrolling: "touch" }}
             >
