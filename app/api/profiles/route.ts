@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
-import { createProfile, listProfiles } from "@/lib/store";
+import { supabase } from "@/lib/supabaseClient"; // apna Supabase client
+import { nanoid } from "nanoid";
+
+function generateAvatar(): string {
+	return `https://api.dicebear.com/6.x/thumbs/png?seed=${nanoid()}&size=64`;
+}
 
 export async function GET() {
 	try {
-		const profiles = listProfiles();
-		return NextResponse.json(profiles);
-	} catch (err: unknown) {
-		let message = "Invalid payload";
-		if (err instanceof Error) message = err.message;
+		const { data, error } = await supabase.from("profiles").select("*");
+		if (error) throw error;
 
+		return NextResponse.json(data);
+	} catch (err: unknown) {
+		let message = "Failed to fetch profiles";
+		if (err instanceof Error) message = err.message;
 		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
@@ -16,13 +22,21 @@ export async function GET() {
 export async function POST(request: Request) {
 	try {
 		const body = await request.json();
-		// Validation already done in createProfile
-		const profile = createProfile(body);
-		return NextResponse.json(profile, { status: 201 });
-	} catch (err: unknown) {
-		let message = "Invalid payload";
-		if (err instanceof Error) message = err.message;
 
+		// avatar generate kar do
+		const avatar = generateAvatar();
+
+		const { data, error } = await supabase
+			.from("profiles")
+			.insert([{ ...body, avatar }])
+			.select();
+
+		if (error) throw error;
+
+		return NextResponse.json(data[0], { status: 201 });
+	} catch (err: unknown) {
+		let message = "Failed to create profile";
+		if (err instanceof Error) message = err.message;
 		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
