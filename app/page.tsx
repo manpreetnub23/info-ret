@@ -48,41 +48,56 @@
 //   );
 // }
 
+
 "use client";
 import { useEffect, useState } from "react";
 import type { Profile } from "@/types/profile";
 import Navbar from "@/components/Navbar";
 import StackedCardCarousel from "@/components/StackedCardCarousel";
 
+function SkeletonCard() {
+  return (
+    <div className="p-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl shadow-xl flex flex-col gap-4 items-center text-white animate-pulse">
+      <div className="w-16 h-16 rounded-full bg-gray-700" />
+      <div className="w-32 h-6 bg-gray-700 rounded" />
+      <div className="w-40 h-4 bg-gray-700 rounded" />
+      <div className="w-36 h-4 bg-gray-700 rounded" />
+      <div className="w-8 h-8 bg-gray-700 rounded-full" />
+    </div>
+  );
+}
+
 export default function HomePage() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/profiles")
-      .then((res) => res.json())
-      .then((data) => {
-        // Ensure data is always an array
-        if (Array.isArray(data)) setProfiles(data);
-        else setProfiles([]);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch profiles:", err);
-        setProfiles([]);
-      });
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      fetch("/api/profiles")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setProfiles(data);
+          else setProfiles([]);
+        })
+        .catch(() => setProfiles([]))
+        .finally(() => setLoading(false));
+    }, 600); // 🔥 artificial delay
+
+    return () => clearTimeout(timer);
   }, []);
 
-  const filteredProfiles = Array.isArray(profiles)
-    ? profiles.filter((p) =>
-      [p.name, p.email, p.phone].some((field) =>
-        field?.toLowerCase().includes(search.toLowerCase())
-      )
+  const filteredProfiles = profiles.filter((p) =>
+    [p.name, p.email, p.phone].some((field) =>
+      field?.toLowerCase().includes(search.toLowerCase())
     )
-    : [];
+  );
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white flex flex-col">
-      <Navbar />
+      <Navbar loading={loading} />
 
       {/* Heading */}
       <header className="text-center py-12 px-4 mt-20">
@@ -99,11 +114,19 @@ export default function HomePage() {
         />
       </header>
 
-      {/* Card Carousel */}
+      {/* Main Section */}
       <main className="flex-1 w-full px-4 pb-12 flex justify-center items-start">
-        <StackedCardCarousel profiles={filteredProfiles} />
+        {loading ? (
+          // 🔥 Skeleton Cards shown instead of actual profiles
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : (
+          <StackedCardCarousel profiles={filteredProfiles} />
+        )}
       </main>
-
     </div>
   );
 }
