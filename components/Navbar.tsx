@@ -7,8 +7,11 @@ export default function Navbar() {
 
     return (
         <nav className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-900 via-black to-gray-900 border-b border-gray-700 shadow-lg">
-            <div className="text-white text-2xl font-extrabold tracking-wide">
-                profiles
+            <div className="text-white text-2xl font-extrabold tracking-wide cursor-pointer">
+                <Link
+                    href="/">
+                    profiles
+                </Link>
             </div>
 
             <ul className="flex space-x-8">
@@ -42,6 +45,6 @@ export default function Navbar() {
                     </Link>
                 </li>
             </ul>
-        </nav>
+        </nav >
     );
 }
