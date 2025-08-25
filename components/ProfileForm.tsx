@@ -3,11 +3,7 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-type Props = {
-	onCreated: () => void;
-};
-
-export default function ProfileForm({ onCreated }: Props) {
+export default function ProfileForm() {
 	const [form, setForm] = useState({ name: "", email: "", phone: "" });
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -28,10 +24,8 @@ export default function ProfileForm({ onCreated }: Props) {
 
 			setForm({ name: "", email: "", phone: "" });
 			toast.success("Profile created successfully!");
-			onCreated();
-		} catch (err: any) {
-			setError(err?.message || "Something went wrong");
-			toast.error(err?.message || "Something went wrong");
+		} catch (err: unknown) {
+			setError(err instanceof Error ? err.message : "Something went wrong");
 		} finally {
 			setLoading(false);
 		}

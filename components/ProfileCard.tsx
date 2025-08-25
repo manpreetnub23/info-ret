@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import type { Profile } from '@/types/profile';
+import Image from "next/image"
 
 type Props = {
     profile: Profile;
@@ -16,7 +17,7 @@ export default function ProfileCard({ profile }: Props) {
             className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm"
         >
             <div className="flex items-center gap-3">
-                <img
+                <Image
                     src={profile.avatar}
                     alt={`${profile.name} avatar`}
                     className="h-12 w-12 rounded-full border border-gray-200"

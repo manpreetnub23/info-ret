@@ -5,11 +5,11 @@ export async function GET() {
 	try {
 		const profiles = listProfiles();
 		return NextResponse.json(profiles);
-	} catch (err: any) {
-		return NextResponse.json(
-			{ error: err?.message || "Failed to list profiles" },
-			{ status: 500 }
-		);
+	} catch (err: unknown) {
+		let message = "Invalid payload";
+		if (err instanceof Error) message = err.message;
+
+		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
 
@@ -19,10 +19,10 @@ export async function POST(request: Request) {
 		// Validation already done in createProfile
 		const profile = createProfile(body);
 		return NextResponse.json(profile, { status: 201 });
-	} catch (err: any) {
-		return NextResponse.json(
-			{ error: err?.message || "Invalid payload" },
-			{ status: 400 }
-		);
+	} catch (err: unknown) {
+		let message = "Invalid payload";
+		if (err instanceof Error) message = err.message;
+
+		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
