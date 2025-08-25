@@ -16,7 +16,7 @@ export default function ResponsiveCardCarousel({ profiles }: Props) {
         <div className="w-full px-4 py-8">
             {/* --- Desktop Grid (3x3) --- */}
             <div
-                className={`cursor-pointer hidden md:grid max-w-6xl h-96 mx-auto gap-6 ${profiles.length === 1 ? "justify-center" : ""
+                className={`cursor-pointer hidden md:grid max-w-6xl min-h-screen mx-auto gap-6 ${profiles.length === 1 ? "justify-center" : ""
                     } grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`}
                 style={profiles.length === 1 ? { justifyContent: "center" } : {}}
             >

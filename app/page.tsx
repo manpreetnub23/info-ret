@@ -81,7 +81,7 @@ export default function HomePage() {
     : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white flex flex-col">
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white flex flex-col">
       <Navbar />
 
       {/* Heading */}
@@ -100,9 +100,10 @@ export default function HomePage() {
       </header>
 
       {/* Card Carousel */}
-      <main className="flex-1 flex justify-center items-start px-4 pb-12">
+      <main className="flex-1 w-full px-4 pb-12 flex justify-center items-start">
         <StackedCardCarousel profiles={filteredProfiles} />
       </main>
+
     </div>
   );
 }

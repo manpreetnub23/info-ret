@@ -36,7 +36,7 @@ export default function ProfileForm() {
 			<Toaster position="top-right" reverseOrder={false} />
 			<form
 				onSubmit={handleSubmit}
-				className="w-full max-w-md bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 shadow-2xl flex flex-col gap-6 animate-pulse"
+				className="w-full max-w-md bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 shadow-2xl flex flex-col gap-6"
 				style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
 			>
 				<h2 className="text-4xl font-extrabold text-white text-center mb-4 tracking-wide">
